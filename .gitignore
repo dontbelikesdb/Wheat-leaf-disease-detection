@@ -1,0 +1,47 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Test, coverage, and type-checker output
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE and OS files
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db
+
+# Training data and generated ML artifacts
+Dataset/
+*.h5
+*.keras
+*.pickle
+*.joblib
+classification_report.json
+confusion_matrix.csv
+
+# Runtime uploads and local experiments
+static/last_uploaded.jpg
+testing/
+tempCodeRunnerFile.py

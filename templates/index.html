@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wheat Leaf Disease Pathology Diagnostic System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #15803d;
+      --primary-hover: #166534;
+      --primary-light: #f0fdf4;
+      --primary-border: #bbf7d0;
+      --secondary: #475569;
+      --secondary-hover: #334155;
+      --bg-surface: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      color: var(--text-main);
+      background-image: url('/static/wheat_background.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(240, 253, 244, 0.90) 100%);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1280px;
+      margin: auto;
+      background: var(--bg-surface);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 44px;
+    }
+
+    .header-bar {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid var(--primary-border);
+      padding: 5px 14px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 12px;
+    }
+
+    .badge-tag svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .lead-text {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .button-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin: 28px 0 44px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 44px;
+      padding: 0 24px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-decoration: none;
+      border: 1px solid transparent;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      border-color: var(--primary-hover);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-secondary {
+      background-color: #ffffff;
+      color: var(--secondary);
+      border-color: #cbd5e1;
+    }
+
+    .btn-secondary:hover {
+      background-color: #f8fafc;
+      color: var(--secondary-hover);
+      border-color: #94a3b8;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title svg {
+      width: 20px;
+      height: 20px;
+      color: var(--primary);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: #cbd5e1;
+    }
+
+    .card-img-wrapper {
+      width: 100%;
+      height: 190px;
+      overflow: hidden;
+      background: #f1f5f9;
+      position: relative;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover img {
+      transform: scale(1.04);
+    }
+
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    #modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: #ffffff;
+      padding: 36px;
+      max-width: 640px;
+      width: 100%;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      animation: modalFade 0.3s ease-out;
+    }
+
+    @keyframes modalFade {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .modal-header h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      padding: 4px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-btn:hover {
+      color: var(--text-main);
+      background: #f1f5f9;
+    }
+
+    .close-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .modal-body p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    #topBtn {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 90;
+      width: 44px;
+      height: 44px;
+      border: none;
+      background-color: var(--primary);
+      color: white;
+      cursor: pointer;
+      border-radius: 50%;
+      box-shadow: var(--shadow-md);
+      transition: all 0.2s ease;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #topBtn:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    #topBtn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 24px 18px;
+      }
+      h1 {
+        font-size: 24px;
+      }
+      .button-group {
+        flex-direction: column;
+      }
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header-bar">
+      <div class="badge-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+        <span>Agricultural Pathology AI</span>
+      </div>
+      <h1>Wheat Leaf Disease Detection System</h1>
+      <p class="lead-text">
+        Wheat is a critical staple crop supporting global food security. Leaf diseases cause extensive yield degradation if unaddressed. 
+        This deep learning diagnostic system utilizes ResNet50 neural representations to deliver rapid, reliable disease classification.
+      </p>
+
+      <div class="button-group">
+        <a href="{{ url_for('predict') }}" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <span>Open Diagnostic Tool</span>
+        </a>
+        <button onclick="document.getElementById('modal').style.display='flex'" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          <span>Project Overview</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7"/>
+        <rect x="14" y="3" width="7" height="7"/>
+        <rect x="14" y="14" width="7" height="7"/>
+        <rect x="3" y="14" width="7" height="7"/>
+      </svg>
+      <span>Recognized Disease Pathologies</span>
+    </div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-img-wrapper">
+          <img src="{{ url_for('static', filename='fusarium_1.jpg') }}" alt="Fusarium Head Blight" onerror="this.style.display='none'">
+        </div>
+        <div class="card-body">
+          <h3>Fusarium Head Blight</h3>
+          <p>Also known as head scab, causing premature bleaching of spikelets and sterile or shriveled grain development.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img-wrapper">
+          <img src="{{ url_for('static', filename='healthy_1.jpg') }}" alt="Healthy Wheat" onerror="this.style.display='none'">
+        </div>
+        <div class="card-body">
+          <h3>Healthy Wheat</h3>
+          <p>Normal vegetative foliage exhibiting uniform chlorophyll pigmentation without necrotic lesions or spotting.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img-wrapper">
+          <img src="{{ url_for('static', filename='leaf_rust_1.jpg') }}" alt="Leaf Rust" onerror="this.style.display='none'">
+        </div>
+        <div class="card-body">
+          <h3>Leaf Rust</h3>
+          <p>Caused by <i>Puccinia triticina</i>, presenting as small, circular, reddish-orange uredinial pustules on leaf blades.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img-wrapper">
+          <img src="{{ url_for('static', filename='tan_spot_1.jpg') }}" alt="Tan Spot" onerror="this.style.display='none'">
+        </div>
+        <div class="card-body">
+          <h3>Tan Spot</h3>
+          <p>Fungal infection caused by <i>Pyrenophora tritici-repentis</i>, developing tan lesions with distinct chlorotic yellow borders.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Modal -->
+  <div id="modal" onclick="if(event.target === this) this.style.display='none'">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>About This Diagnostic Tool</h2>
+        <button class="close-btn" onclick="document.getElementById('modal').style.display='none'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>This application was developed as a Data Warehousing and Mining Project-Based Learning (PBL) solution to facilitate rapid crop health assessment for agronomists and farmers.</p>
+        <p>The core machine learning engine uses transfer learning with a ResNet50 convolutional backbone fine-tuned to classify wheat leaf specimens into Fusarium Head Blight, Leaf Rust, Tan Spot, and Healthy classes with high precision.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll to Top -->
+  <button onclick="topFunction()" id="topBtn" title="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="19" x2="12" y2="5"/>
+      <polyline points="5 12 12 5 19 12"/>
+    </svg>
+  </button>
+
+  <script>
+    const topBtn = document.getElementById("topBtn");
+    window.onscroll = function () {
+      if (document.documentElement.scrollTop > 200) {
+        topBtn.style.display = "inline-flex";
+      } else {
+        topBtn.style.display = "none";
+      }
+    };
+    function topFunction() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
